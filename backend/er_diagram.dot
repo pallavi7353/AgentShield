@@ -1,0 +1,89 @@
+digraph ERD {
+    rankdir=LR;
+    node [shape=plaintext, fontname="Helvetica"];
+    edge [fontname="Helvetica", fontsize=10];
+
+    Users [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" BGCOLOR="white">
+        <TR><TD BGCOLOR="#1f3a5f"><FONT COLOR="white"><B>Users</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">PK  id</TD></TR>
+        <TR><TD ALIGN="LEFT">    username</TD></TR>
+        <TR><TD ALIGN="LEFT">    email</TD></TR>
+        <TR><TD ALIGN="LEFT">    hashed_password</TD></TR>
+        <TR><TD ALIGN="LEFT">FK  role_id</TD></TR>
+        <TR><TD ALIGN="LEFT">    status</TD></TR>
+        <TR><TD ALIGN="LEFT">    failed_login_attempts</TD></TR>
+        <TR><TD ALIGN="LEFT">    locked_until</TD></TR>
+        <TR><TD ALIGN="LEFT">    created_at</TD></TR>
+        </TABLE>>];
+
+    Roles [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" BGCOLOR="white">
+        <TR><TD BGCOLOR="#1f3a5f"><FONT COLOR="white"><B>Roles</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">PK  id</TD></TR>
+        <TR><TD ALIGN="LEFT">    role_name</TD></TR>
+        </TABLE>>];
+
+    Permissions [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" BGCOLOR="white">
+        <TR><TD BGCOLOR="#1f3a5f"><FONT COLOR="white"><B>Permissions</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">PK  id</TD></TR>
+        <TR><TD ALIGN="LEFT">    permission_name</TD></TR>
+        </TABLE>>];
+
+    RolePermissions [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" BGCOLOR="white">
+        <TR><TD BGCOLOR="#3f6f3f"><FONT COLOR="white"><B>RolePermissions</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">PK,FK  role_id</TD></TR>
+        <TR><TD ALIGN="LEFT">PK,FK  permission_id</TD></TR>
+        </TABLE>>];
+
+    AuditLogs [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" BGCOLOR="white">
+        <TR><TD BGCOLOR="#7f2f2f"><FONT COLOR="white"><B>AuditLogs</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">PK  id</TD></TR>
+        <TR><TD ALIGN="LEFT">FK  user_id</TD></TR>
+        <TR><TD ALIGN="LEFT">    prompt</TD></TR>
+        <TR><TD ALIGN="LEFT">    response</TD></TR>
+        <TR><TD ALIGN="LEFT">    threat_level</TD></TR>
+        <TR><TD ALIGN="LEFT">    action_taken</TD></TR>
+        <TR><TD ALIGN="LEFT">    event_type</TD></TR>
+        <TR><TD ALIGN="LEFT">    timestamp</TD></TR>
+        </TABLE>>];
+
+    Alerts [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" BGCOLOR="white">
+        <TR><TD BGCOLOR="#7f2f2f"><FONT COLOR="white"><B>Alerts</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">PK  id</TD></TR>
+        <TR><TD ALIGN="LEFT">    title</TD></TR>
+        <TR><TD ALIGN="LEFT">    severity</TD></TR>
+        <TR><TD ALIGN="LEFT">    description</TD></TR>
+        <TR><TD ALIGN="LEFT">    status</TD></TR>
+        <TR><TD ALIGN="LEFT">    timestamp</TD></TR>
+        </TABLE>>];
+
+    ThreatHistory [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" BGCOLOR="white">
+        <TR><TD BGCOLOR="#7f2f2f"><FONT COLOR="white"><B>ThreatHistory</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">PK  id</TD></TR>
+        <TR><TD ALIGN="LEFT">    prompt</TD></TR>
+        <TR><TD ALIGN="LEFT">    attack_type</TD></TR>
+        <TR><TD ALIGN="LEFT">    risk_score</TD></TR>
+        <TR><TD ALIGN="LEFT">    blocked</TD></TR>
+        <TR><TD ALIGN="LEFT">    timestamp</TD></TR>
+        </TABLE>>];
+
+    AIAgents [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" BGCOLOR="white">
+        <TR><TD BGCOLOR="#5f4f1f"><FONT COLOR="white"><B>AIAgents</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">PK  id</TD></TR>
+        <TR><TD ALIGN="LEFT">    agent_name</TD></TR>
+        <TR><TD ALIGN="LEFT">    status</TD></TR>
+        <TR><TD ALIGN="LEFT">    last_active</TD></TR>
+        </TABLE>>];
+
+    Users -> Roles [label="role_id  (many:1)"];
+    RolePermissions -> Roles [label="role_id"];
+    RolePermissions -> Permissions [label="permission_id"];
+    AuditLogs -> Users [label="user_id  (many:1)"];
+}
